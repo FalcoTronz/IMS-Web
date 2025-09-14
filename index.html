@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Page metadata and title -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+
+  <!-- Fuse.js (for fuzzy search) -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<link rel="icon" type="image/x-icon" href="img/book.png">
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- Header with logo, nav links, and hamburger menu -->
+  <header class="navbar">
+    <!-- Logo -->
+    <a href="index.html" class="logo">📚 Library Management System</a>
+
+    <!-- Navigation links -->
+    <nav class="nav-links" id="navLinks">
+      <a href="#">Home</a>
+      <a href="#" onclick="openPopup('Member')">Member Login</a>
+      <a href="#" onclick="openPopup('Staff')">Staff Login</a>
+      <a href="join.html">Join the Library</a>
+    </nav>
+
+    <!-- Hamburger icon for mobile -->
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <!-- Main content area -->
+  <main>
+
+<!-- Trending Now section -->
+<section id="trending-panel" style="margin:24px 0; text-align:center;">
+  <h3 style="display:flex; align-items:center; justify-content:center; gap:8px; margin:0 0 12px;">
+    <span aria-hidden="true">✨</span>
+    <span>Trending Now (Most Borrowed Books)</span>
+  </h3>
+  <div id="trending-list" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;"></div>
+  <div id="trending-error" style="color:#b22; font-size:0.95rem;"></div>
+</section>
+
+
+    
+    <!-- Search box section -->
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search by Title, Author, or Category...">
+        <button class="search-button" type="button" id="clear-button">Clear</button>
+
+      </div>
+    </div>
+
+<!-- Search Results Table -->
+<div class="item-table">
+  <h3>Please Join the Library to Borrow Books</h3>
+  <h3>Search Results</h3>
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Book ID</th>
+          <th>Book Name</th>
+          <th>Author(s)</th>
+          <th>Category</th>
+<!--           <th>Quantity</th> -->
+          <th>ISBN</th>
+          <th>Year</th>
+          <th>Location</th>
+<!--           <th>Status</th> -->
+<!--           <th>Last Update</th> -->
+        </tr>
+      </thead>
+      <tbody id="search-results">
+        <tr><td colspan="10">Start typing to search...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- Staff Login Modal -->
+<div id="staffLoginPopup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <h2>Staff Login</h2>
+    <form id="staff-login-form">
+      <input type="text" name="username" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <div class="g-recaptcha" data-sitekey="6Lf9KporAAAAAI5ADDfR5gAiIX3q3n6F-jtGaTQZ"></div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+<!-- Member Login Modal -->
+<div id="memberLoginPopup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <h2>Member Login</h2>
+    <form id="member-login-form">
+      <input type="text" name="username" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <div class="g-recaptcha" data-sitekey="6Lf9KporAAAAAI5ADDfR5gAiIX3q3n6F-jtGaTQZ"></div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+
+
+  </main>
+
+  <!-- Footer with useful links -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="#" onclick="openPopup('Member')">Member Login</a>
+      <a href="#" onclick="openPopup('Staff')">Staff Login</a>
+       <a href="join.html">Join the Library</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2025 Library Management System
+            <span style="color: white; font-weight: bold;">Student Number: HE19955</span>
+    </div>
+  </footer>
+
+<!-- Include the reCAPTCHA script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  
+  <!-- External JavaScript for menu toggle and popup logic -->
+  <script src="js/home.js"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

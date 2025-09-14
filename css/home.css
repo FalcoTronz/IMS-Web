@@ -1,0 +1,289 @@
+/* ==== Global Reset and Base Styles ==== */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+/* ==== Header Styles ==== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1f4e79;
+  color: white;
+  padding: 20px 20px;
+}
+
+/* Logo link inside header */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+/* Navigation container */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+/* Individual nav links */
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Hamburger icon (mobile menu trigger) */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ==== Mobile Navigation Styles ==== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #1f4e79;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+/* ==== Main Content Layout ==== */
+main {
+  flex: 1;
+  padding: 0;
+}
+
+/* ==== Search Section ==== */
+.search-container {
+  margin-top: 100px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Search box layout */
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 550px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Responsive search layout for mobile */
+@media (max-width: 600px) {
+  .search-box {
+    max-width: calc(100% - 50px);
+  }
+
+  .search-input,
+  .search-button {
+    height: auto !important;
+    font-size: 15px !important;
+    padding: 10px !important;
+  }
+}
+
+/* Search input field */
+.search-input {
+  height: 50px;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+/* Search button */
+.search-button {
+  height: 50px;
+  padding: 0 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* ==== Footer Section ==== */
+.footer {
+  background-color: #2b2b2b;
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+}
+
+/* Footer links */
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Footer copyright */
+.footer-copy {
+  color: #666;
+}
+
+/* ==== Mobile Menu Active State ==== */
+#navLinks.active {
+  background-color: #02a47a;
+}
+
+#navLinks.active a {
+  color: #ffffff;
+}
+
+#navLinks a:hover {
+  color: orange;
+}
+
+/* ==== Popup Overlay (background layer) ==== */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* ==== Popup Content Box ==== */
+.popup-content {
+  background: white;
+  padding: 30px;
+  width: 300px;
+  max-width: 90%;
+  margin: 100px auto;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Input fields inside popup */
+.popup-content input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Login button inside popup */
+.popup-content button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-content button:hover {
+  background-color: #0056b3;
+}
+
+/* Close (X) button in popup */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+.highlight {
+  background-color: orange;
+  font-weight: bold;
+}
+
+/* ==== Search Results Table ==== */
+.item-table {
+  max-width: 95%;
+  margin: 40px auto;
+  overflow-x: auto;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.item-table h3 {
+  margin-bottom: 15px;
+  text-align: center;
+  color: #1f4e79;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.item-table table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+.item-table th {
+  background-color: #1f4e79;
+  color: white;
+  border: 1px solid #ccc;
+  padding: 10px 5px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.item-table td {
+  border: 1px solid #ccc;
+  padding: 8px 5px;
+  text-align: left;
+  word-wrap: break-word;
+  white-space: normal;
+}

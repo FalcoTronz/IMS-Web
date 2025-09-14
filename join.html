@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join the Library</title>
+  <link rel="stylesheet" href="css/join.css" />
+  <link rel="icon" type="image/x-icon" href="img/book.png">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="navbar">
+    <a href="index.html" class="logo">📚 Library Management System</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="javascript:void(0)" onclick="openPopup('Member')">Member Login</a>
+      <a href="javascript:void(0)" onclick="openPopup('Staff')">Staff Login</a>
+      <a href="join.html">Join the Library</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <!-- Join Form -->
+  <main class="form-container">
+    <h2>Request Membership</h2>
+    <form id="joinForm" action="php/join-request.php" method="POST">
+      <input type="text" id="full_name" name="full_name" placeholder="Full Name" required maxlength="255" />
+      <input type="email" id="email" name="email" placeholder="Email Address" required maxlength="255" />
+      <input type="password" id="password" name="password" placeholder="Create Password" required minlength="6" maxlength="255" />
+      <input type="text" id="job" name="job" placeholder="Job" required maxlength="255" />
+      <input type="text" id="address" name="address" placeholder="Address" required maxlength="255" />
+      <input type="tel" id="phone" name="phone" placeholder="Phone Number" required maxlength="15" pattern="^\+?[0-9]{7,15}$" title="Use 7 to 15 digits only, optionally starting with +" />
+      <textarea id="reason" name="reason" rows="4" placeholder="Please explain your interests in requesting membership." required maxlength="1000"></textarea>
+      <button type="submit">Submit Request</button>
+    </form>
+  </main>
+
+  <!-- Login popup (used for both Staff and Member) -->
+  <div id="loginPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopup()">&times;</span>
+      <h2 id="popupTitle">Login</h2>
+
+      <form id="loginForm" action="php/login.php" method="POST">
+        <input type="hidden" id="roleInput" name="role" />
+        <input type="email" id="usernameInput" name="username" placeholder="Email" required>
+        <input type="password" id="passwordInput" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+
+        <!-- Keep this only if php/login.php verifies reCAPTCHA with a valid secret -->
+        <div class="g-recaptcha" data-sitekey="6LcK1oorAAAAAIcFxzz3fOnr3NSs-0YWvqaxvmXQ"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="javascript:void(0)" onclick="openPopup('Member')">Member Login</a>
+      <a href="javascript:void(0)" onclick="openPopup('Staff')">Staff Login</a>
+    </div>
+    <div class="footer-copy">
+      &copy; 2025 Library Management System
+      <span style="color: white; font-weight: bold;">Student Number: HE19955</span>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    // Open the login popup and set role + title
+    function openPopup(role) {
+      const popup = document.getElementById('loginPopup');
+      const title = document.getElementById('popupTitle');
+      const roleInput = document.getElementById('roleInput');
+      const usernameInput = document.getElementById('usernameInput');
+
+      title.textContent = role + ' Login';
+      roleInput.value = role.toLowerCase(); // "member" or "staff"
+      usernameInput.placeholder = 'Email';
+
+      popup.style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('loginPopup').style.display = 'none';
+    }
+
+    // Close popup if clicking outside it
+    window.addEventListener('click', function (e) {
+      const popup = document.getElementById('loginPopup');
+      if (e.target === popup) closePopup();
+    });
+
+    // Handle JOIN form submission
+    document.getElementById('joinForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const reason = document.getElementById('reason').value.trim();
+      const wordCount = reason.split(/\s+/).filter(w => w.length > 0).length;
+      if (wordCount < 10) {
+        alert('Please write at least 10 words explaining why you want to join.');
+        return;
+      }
+
+      const form = e.target;
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const result = await response.json().catch(() => ({}));
+
+        if (result.success) {
+          alert('Membership request submitted!');
+          form.reset();
+        } else if (result.error && result.error.includes('Email is already in use')) {
+          alert('⚠️ Email is already in use!');
+        } else if (result.error && result.error.includes('Phone number is already in use')) {
+          alert('⚠️ Phone number is already in use!');
+        } else {
+          alert('Error: ' + (result.error || 'Submission failed.'));
+        }
+      } catch {
+        alert('An unexpected error occurred.');
+      }
+    });
+
+    // Handle LOGIN form submission
+    (function setupLoginHandler() {
+      const form = document.getElementById('loginForm');
+      if (!form) return;
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        try {
+          const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+
+          // Try JSON first; fall back to text
+          let data;
+          const text = await res.text();
+          try { data = JSON.parse(text); } catch { data = { success: false, error: text || 'Invalid server response' }; }
+
+          if (data.success) {
+            window.location.href = (data.role === 'staff') ? 'staff-dashboard.php' : 'member-dashboard.php';
+          } else {
+            alert(data.error || 'Login failed.');
+            if (window.grecaptcha && grecaptcha.reset) grecaptcha.reset();
+          }
+        } catch {
+          alert('Network error. Please try again.');
+        }
+      });
+    })();
+  </script>
+
+  <!-- reCAPTCHA script (keep only if server verifies it) -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>
